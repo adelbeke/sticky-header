@@ -22,10 +22,7 @@ import {
 } from "react-native-safe-area-context";
 
 const WINDOW_HEIGHT =
-  Platform.OS === "android" && Platform.Version >= 29
-    ? Dimensions.get("window").height + (RNStatusBar.currentHeight ?? 0)
-    : Dimensions.get("window").height;
-
+  Dimensions.get("window").height + (RNStatusBar?.currentHeight ?? 0);
 const EXPANDED_HEIGHT_RATIO = 1 / 3;
 
 const BASE_HEIGHT = WINDOW_HEIGHT * EXPANDED_HEIGHT_RATIO;
@@ -70,12 +67,7 @@ function App() {
 
   const searchBarStyle = useAnimatedStyle(() => {
     const finalYToReach = greetingLayout.value.y;
-    const distanceToMove =
-      finalYToReach -
-      searchBarLayout.value.y +
-      searchBarLayout.value.height +
-      16 +
-      8;
+    const distanceToMove = finalYToReach - top - 8; // 8 is the gap between the greeting and the search bar
 
     return {
       transform: [
@@ -114,7 +106,7 @@ function App() {
         style={[
           stickyRedViewStyleWhileScrollingTop,
           {
-            backgroundColor: "red",
+            backgroundColor: "blue",
             justifyContent: "center",
             alignItems: "center",
             gap: 8,
@@ -156,16 +148,9 @@ function App() {
         scrollEventThrottle={16}
         contentContainerStyle={{ paddingTop: BASE_HEIGHT - top }}
       >
-        <Animated.View
-          style={{ width: "100%", height: 300, backgroundColor: "blue" }}
-        >
+        <Animated.View style={{ height: 1000, backgroundColor: "#FFF" }}>
           <Text>Hello</Text>
         </Animated.View>
-        <Animated.View style={{ height: 300, backgroundColor: "green" }} />
-        <Animated.View style={{ height: 300, backgroundColor: "yellow" }} />
-        <Animated.View style={{ height: 300, backgroundColor: "purple" }} />
-        <Animated.View style={{ height: 300, backgroundColor: "orange" }} />
-        <Animated.View style={{ height: 300, backgroundColor: "pink" }} />
       </Animated.ScrollView>
     </View>
   );
